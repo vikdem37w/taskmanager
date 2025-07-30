@@ -1,0 +1,1 @@
+console.log("HEY KRIS, THE [Developers] LOCKED ME IN HERE, USE YOUR [KEYGEN] TO GET ME OUT OF HERE BEFORE THEY [Hyperlink Blocked] ME TO [$#£*]");

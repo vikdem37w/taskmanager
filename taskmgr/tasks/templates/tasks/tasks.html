@@ -1,12 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks</title>
-</head>
-<body>
-    <h1>Tasks</h1>
-    <p>* But nobody came.</p>
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}
+    Tasks
+{% endblock %}
+
+{% block content %}
+<section>
+    <section>
+        <h1>Tasks</h1>
+            {% for task in tasks %}
+            <article>
+                <h2>{{ task.title }}</h2>
+                <p>{{ task.status }}</p>
+                <p>{{ task.priority }}</p>
+                <p>{{ task.description }}</p>
+                <p>{{ task.due_date }}</p>
+            </article>
+            {% endfor %}
+        </section>
+{% endblock %}
