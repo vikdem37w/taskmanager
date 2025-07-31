@@ -1,2 +1,6 @@
-## taskmanager
-# Cannot create a catchy description right now, check again later
+# taskmanager
+
+### Basically redmine, but barely working, selfhosted and selfupkept.
+
+#### " Why use the wheel, if you can reinvent it? "
+<sup>- no one ever</sup>
