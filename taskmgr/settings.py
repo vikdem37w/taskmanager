@@ -30,8 +30,7 @@ SECRET_KEY = env.str('TM_SECRET_KEY', "secret")
 DEBUG = env.bool("TM_DEBUG", False)
 
 DOMAIN = env.str("TM_DOMAIN", "http://127.0.0.1:8000")
-ALLOWED_HOSTS = [DOMAIN.split("//")[-1]] + env.list("TM_ALLOWED_HOSTS", [], subcast=str)
-print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")
+ALLOWED_HOSTS = env.list("TM_ALLOWED_HOSTS", [], subcast=str)
 CSRF_TRUSTED_ORIGINS = [DOMAIN] + env.list("TM_CSRF_TRUSTED", [], subcast=str)
 
 
