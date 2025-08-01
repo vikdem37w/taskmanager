@@ -12,24 +12,27 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
+from environs import Env
 
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGOKEY')
+SECRET_KEY = env.str('TM_SECRET_KEY', "secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("TM_DEBUG", False)
 
-ALLOWED_HOSTS = []
+DOMAIN = env.str("TM_DOMAIN", "http://127.0.0.1:8000")
+ALLOWED_HOSTS = [DOMAIN.split("//")[-1]] + env.list("TM_ALLOWED_HOSTS", [], subcast=str)
+print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")
+CSRF_TRUSTED_ORIGINS = [DOMAIN] + env.list("TM_CSRF_TRUSTED", [], subcast=str)
 
 
 # Application definition
@@ -78,13 +81,14 @@ WSGI_APPLICATION = 'taskmgr.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = { 
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": env.str("POSTGRES_DB"),
+        "USER": env.str("POSTGRES_USER"),
+        "PASSWORD": env.str("POSTGRES_PASSWORD"),
+        "HOST": env.str("POSTGRES_HOST", "localhost"),
+        "PORT": env.int("POSTGRES_PORT", 5432),
+        "ATOMIC_REQUESTS": True,
         'OPTIONS': {
             'client_encoding': 'UTF8',
         },
