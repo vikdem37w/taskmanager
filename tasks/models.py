@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User as BaseUser
 
-# Create your models here.
-
 class Task(models.Model): #just usinge The Crappeth theye gaveth to Me
     STATUS_CHOICES = [
         ('pending', 'Pending'),
