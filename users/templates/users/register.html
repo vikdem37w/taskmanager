@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1>Register a New User</h1>
-    {% comment %} class="form-with-validation" {% endcomment %}
+    {% comment %} class="entry-decor" {% endcomment %}
     <form action="/users/register/" method="post"> 
         {% csrf_token %}
         {{ form }}

@@ -6,6 +6,24 @@
 
 {% block content %}
     <h1>Quite a lousy homepage innit luv?</h1>
-    <a href="">Login</a>
-    <a href="/users/register/">Register</a>
+    {% if user.is_authenticated %}
+    <form action="{% url 'tasks:tasks' %}">
+        <button type="submit">Tasks</button>
+    </form>
+    <form action="{% url 'tasks:create_task' %}">
+        <button type="submit">Create Task</button>
+    </form>
+    <form action="{% url 'users:logout' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="/">
+        <button type="submit">Logout</button>
+    </form>
+    {% else %}
+    <form action="{% url 'users:login' %}">
+        <button type="submit">Login</button>
+    </form>
+    <form action="{% url 'users:register' %}">
+        <button type="submit">Register</button>
+    </form>
+    {% endif %}
 {% endblock %}

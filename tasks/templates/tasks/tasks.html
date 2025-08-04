@@ -7,6 +7,13 @@
 {% block content %}
 <section>
     <section>
+        <form action="{% url 'users:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        <form action="{% url 'tasks:create_task' %}">
+            <button type="submit">Create Task</button>
+        </form>
         <h1>Tasks</h1>
             {% for task in tasks %}
             <article>
