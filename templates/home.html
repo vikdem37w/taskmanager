@@ -14,15 +14,14 @@
         <button type="submit">Create Task</button>
     </form>
     <form action="{% url 'users:logout' %}" method="post">
-        {% csrf_token %}
         <input type="hidden" name="next" value="/">
         <button type="submit">Logout</button>
     </form>
     {% else %}
-    <form action="{% url 'users:login' %}">
+    <form action="{% url 'users:login' %}" method="post">
         <button type="submit">Login</button>
     </form>
-    <form action="{% url 'users:register' %}">
+    <form action="{% url 'users:register' %}" method="post">
         <button type="submit">Register</button>
     </form>
     {% endif %}
