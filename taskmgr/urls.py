@@ -24,4 +24,5 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('', views.home, name='home'),
     path('api/', include('users.api.urls')),
+    path('api/', include('tasks.api.urls')),
 ]
