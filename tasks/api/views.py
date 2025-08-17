@@ -71,5 +71,8 @@ from tasks.models import Task
 from .serializers import TaskSerializer
 
 class TaskViewSet(viewsets.ModelViewSet):
+    # permission_classes = [permissions.IsAuthenticated] #shhh spoilers
+    # .list(), .retrieve(), .create(), .update(), .partial_update(), and .destroy()
+    # we gotta implement that shit twin💔
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
