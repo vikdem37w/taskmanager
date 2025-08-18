@@ -1,78 +1,10 @@
-# from django.http import HttpResponse, JsonResponse
-# from django.views.decorators.csrf import csrf_exempt
-# from rest_framework.parsers import JSONParser
-# from snippets.models import Snippet
-# from snippets.serializers import SnippetSerializer
-
-# # RAW IMPORT DATA, SUBJECT FOR REWORK
-
-# @csrf_exempt
-# def snippet_list(request):
-#     """
-#     List all code snippets, or create a new snippet.
-#     """
-#     if request.method == 'GET':
-#         snippets = Snippet.objects.all()
-#         serializer = SnippetSerializer(snippets, many=True)
-#         return JsonResponse(serializer.data, safe=False)
-
-#     elif request.method == 'POST':
-#         data = JSONParser().parse(request)
-#         serializer = SnippetSerializer(data=data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return JsonResponse(serializer.data, status=201)
-#         return JsonResponse(serializer.errors, status=400)
-
-# @csrf_exempt
-# def snippet_detail(request, pk):
-#     """
-#     Retrieve, update or delete a code snippet.
-#     """
-#     try:
-#         snippet = Snippet.objects.get(pk=pk)
-#     except Snippet.DoesNotExist:
-#         return HttpResponse(status=404)
-
-#     if request.method == 'GET':
-#         serializer = SnippetSerializer(snippet)
-#         return JsonResponse(serializer.data)
-
-#     elif request.method == 'PUT':
-#         data = JSONParser().parse(request)
-#         serializer = SnippetSerializer(snippet, data=data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return JsonResponse(serializer.data)
-#         return JsonResponse(serializer.errors, status=400)
-
-#     elif request.method == 'DELETE':
-#         snippet.delete()
-#         return HttpResponse(status=204)
-
-# from django.urls import path
-# from snippets import views
-
-# urlpatterns = [
-#     path('snippets/', views.snippet_list),
-#     path('snippets/<int:pk>/', views.snippet_detail),
-# ]
-
-# from django.urls import path
-# from snippets import views
-
-# urlpatterns = [
-#     path('snippets/', views.snippet_list),
-#     path('snippets/<int:pk>/', views.snippet_detail),
-# ]
-
 from rest_framework import viewsets
 from tasks.models import Task
 from .serializers import TaskSerializer
 
 class TaskViewSet(viewsets.ModelViewSet):
-    # permission_classes = [permissions.IsAuthenticated] #shhh spoilers
-    # .list(), .retrieve(), .create(), .update(), .partial_update(), and .destroy()
-    # we gotta implement that shit twin💔
-    queryset = Task.objects.all()
+    queryset = Task.objects.all().order_by('id')
     serializer_class = TaskSerializer
+    filterset_fields = ['user', 'title', 'status', 'priority', 'due_date']
+    ordering_fields = ['title', 'due_date', 'id']
+    ordering = ['id']
