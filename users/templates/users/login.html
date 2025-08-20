@@ -6,7 +6,6 @@
 
 {% block content %}
     <h1>User Login</h1>
-    {% comment %} class="entry-decor" {% endcomment %}
     <form action="/users/login/" method="post"> 
         {% csrf_token %}
         {{ form }}
@@ -15,5 +14,5 @@
         {% endif %}
         <button>Submit</button>
     </form>
-    <h4>Don't have an account? <a href="/users/register/">Register</a></h4>
+    {% comment %} <h4>Don't have an account? <a href="/users/register/">Register</a></h4> {% endcomment %}
 {% endblock %}

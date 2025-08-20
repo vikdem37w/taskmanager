@@ -1,28 +1,23 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Tasks
+    Task #{{ task.id }}: {{ task.title }}
 {% endblock %}
 
 {% block content %}
 <section>
     <section>
-        <form action="{% url 'users:logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
+        <form action="{% url 'tasks:home' %}" method="get">
+            <button type="submit">Back</button>
         </form>
-        <form action="{% url 'tasks:create_task' %}">
-            <button type="submit">Create Task</button>
-        </form>
-        <h1>Tasks</h1>
-            {% for task in tasks %}
-            <article>
-                <h2>{{ task.title }}</h2>
-                <p>{{ task.status }}</p>
-                <p>{{ task.priority }}</p>
-                <p>{{ task.description }}</p>
-                <p>{{ task.due_date }}</p>
-            </article>
-            {% endfor %}
-        </section>
+        <article>
+            <h4>Task #{{ task.id }}</h4>
+            <h2>{{ task.title }}</h2>
+            <h3>Status: {{ task.status }}</h3>
+            <h3>Priority: {{ task.priority }}</h3>
+            <h4>Due Date: {{ task.due_date }}</h4>
+            <p>{{ task.description}}</p>
+        </article>
+    </section>
+</section>
 {% endblock %}
