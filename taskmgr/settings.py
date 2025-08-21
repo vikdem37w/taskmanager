@@ -153,7 +153,3 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
 }
-
-LOGIN_URL = "/users/login/"
-LOGIN_REDIRECT_URL = "/tasks/"
-LOGOUT_REDIRECT_URL = "/"

@@ -6,9 +6,7 @@ from rest_framework.test import APIClient
 class unitTest(TestCase):
     def test(self):
         self.client = APIClient()
-        self.user = User.objects.create_user(
-            username="testuser", password="testpassword"
-        )
+        self.user = User.objects.create_user(username="testuser", password="testpassword")
         self.client.login(username="testuser", password="testpassword")
         response = self.client.post(
             "/api/tasks/",

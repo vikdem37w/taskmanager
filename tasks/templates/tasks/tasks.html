@@ -7,16 +7,23 @@
 {% block content %}
 <section>
     <section>
-        <form action="{% url 'tasks:home' %}" method="get">
-            <button type="submit">Back</button>
-        </form>
+        <h4><a href="{% url 'tasks:home' %}">Back</a></h4>
         <article>
             <h4>Task #{{ task.id }}</h4>
             <h2>{{ task.title }}</h2>
+            <h3>Created by {{ task.user.username }}</h3>
             <h3>Status: {{ task.status }}</h3>
             <h3>Priority: {{ task.priority }}</h3>
             <h4>Due Date: {{ task.due_date }}</h4>
             <p>{{ task.description}}</p>
+            <form action="{% url 'tasks:update_task' task.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Update</button>
+            </form>
+            <form action="{% url 'tasks:delete_task' task.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Remove</button>
+            </form>
         </article>
     </section>
 </section>
