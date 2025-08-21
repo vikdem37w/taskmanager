@@ -40,10 +40,6 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = "tasks/tasks.html"
     login_url = "/users/login/"
 
-    def get_object(self, queryset=None):
-        task_id = self.kwargs.get("id")
-        return Task.objects.get(id=task_id)
-
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     context_object_name = "task"
@@ -55,10 +51,6 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
     
-    def get_object(self, queryset=None):
-        task_id = self.kwargs.get("id")
-        return Task.objects.get(id=task_id)
-    
     def get_success_url(self):
         return f"/tasks/{self.object.id}/"
 
@@ -66,7 +58,3 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     context_object_name = "task"
     success_url = "/"
-
-    def get_object(self, queryset=None):
-        task_id = self.kwargs.get("id")
-        return Task.objects.get(id=task_id)
