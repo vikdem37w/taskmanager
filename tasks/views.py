@@ -1,22 +1,14 @@
 from .models import Task
-from .forms import UpdateTask, CreateTask
+from .forms import TaskForm
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
 
-class TaskListView(LoginRequiredMixin, ListView):
-    model = Task
-    context_object_name = "tasks"
-    ordering = ["-created_at"]
-    template_name = "tasks/tasks.html"
-    login_url = "/users/login/"
-
-
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     context_object_name = "task"
-    form_class = CreateTask
-    template_name = "tasks/create_task.html"
+    form_class = TaskForm
+    template_name = "tasks/task_create.html"
     login_url = "/users/login/"
 
     def form_valid(self, form):
@@ -38,14 +30,14 @@ class HomeView(LoginRequiredMixin, ListView):
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     context_object_name = "task"
-    template_name = "tasks/tasks.html"
+    template_name = "tasks/task_detail.html"
     login_url = "/users/login/"
 
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     context_object_name = "task"
-    form_class = UpdateTask
-    template_name = "tasks/update_task.html"
+    form_class = TaskForm
+    template_name = "tasks/task_update.html"
     login_url = "/users/login/"
 
     def form_valid(self, form):
