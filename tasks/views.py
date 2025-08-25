@@ -1,4 +1,5 @@
 from .models import Task
+from .forms import UpdateTask
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
@@ -43,7 +44,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     context_object_name = "task"
-    fields = ["title", "description", "status", "priority", "due_date"]
+    form_class = UpdateTask
     template_name = "tasks/update_task.html"
     login_url = "/users/login/"
 

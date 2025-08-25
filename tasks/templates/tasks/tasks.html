@@ -16,7 +16,7 @@
             <h3>Priority: {{ task.priority }}</h3>
             <h4>Due Date: {{ task.due_date }}</h4>
             <p>{{ task.description}}</p>
-            <form action="{% url 'tasks:update_task' task.id %}" method="post">
+            <form action="{% url 'tasks:update_task' task.id %}" method="get">
                 {% csrf_token %}
                 <button type="submit">Update</button>
             </form>
