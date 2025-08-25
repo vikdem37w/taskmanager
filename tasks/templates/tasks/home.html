@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <h1>Quite a lousy homepage innit luv?</h1>
+    {% if user.is_authenticated %}
+    <form action="{% url 'tasks:create_task' %}">
+        <button type="submit">Create Task</button>
+    </form>
+    <form action="{% url 'users:logout' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="/">
+        <button type="submit">Logout</button>
+    </form>
+    <section>
+        <h2>Tasks</h2>
+        {% for task in tasks %}
+            <article>
+                <h3><a href="{% url 'tasks:task_detail' task.id %}">{{ task.title }}</a></h3>
+                <p>{{ task.status }}</p>
+                <p>{{ task.priority }}</p>
+                <p>{{ task.description }}</p>
+                <p>{{ task.due_date }}</p>
+                <form action="{% url 'tasks:delete_task' task.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
+                </form>
+            </article>
+            {% endfor %}
+        </section>
+    {% else %}
+    <form action="{% url 'users:login' %}">
+        <button type="submit">Login</button>
+    </form>
+    {% endif %}
+{% endblock %}
