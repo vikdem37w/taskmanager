@@ -4,8 +4,9 @@ from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'taskmgr.settings')
 
-app = Celery('taskmgr')
-
 result_backend = 'django-db'
 
+app = Celery('taskmgr', broker='pyamqp://guest@localhost//')
+
 app.config_from_object('django.conf:settings', namespace='CELERY')
+
