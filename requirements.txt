@@ -9,3 +9,7 @@ celery==5.5.3
 python-telegram-bot==22.3
 requests==2.32.5
 logging==0.4.9.6
+django-celery-beat==2.8.1
+aiogram==3.22.0
+asyncio==4.0.0
+celery-pool-asyncio==0.2.0
