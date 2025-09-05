@@ -157,3 +157,6 @@ SIMPLE_JWT = {
 
 CELERY_BROKER_URL = env.str("MQ_BROKER_URL")
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+REMINDERS_CHAT_IDS = env.list("REMINDER_CHAT_IDS", [])
+TELEGRAM_KEY = env.str("TELEGRAM_KEY")
