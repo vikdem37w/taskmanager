@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+    "django_celery_beat",
     "users",
     "tasks",
 ]
@@ -153,3 +154,9 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
 }
+
+CELERY_BROKER_URL = env.str("MQ_BROKER_URL")
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+REMINDERS_CHAT_IDS = env.list("REMINDER_CHAT_IDS", [])
+TELEGRAM_KEY = env.str("TELEGRAM_KEY")
