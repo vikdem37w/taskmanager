@@ -1,12 +1,16 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 
-class unitTest(TestCase):
+class UnitTest(TestCase):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = None
+
     def test(self):
         self.client = APIClient()
-        self.user = User.objects.create_user(username="testuser", password="testpassword")
+        self.user = get_user_model().objects.create_user(username="testuser", password="testpassword")
         self.client.login(username="testuser", password="testpassword")
         response = self.client.post(
             "/api/tasks/",

@@ -1,9 +1,9 @@
-from .tg_notifier import send_notification
-from celery import shared_task
 from datetime import datetime
-from django.utils.timezone import make_aware
-from .models import Task
 import asyncio
+from celery import shared_task
+from django.utils.timezone import make_aware
+from .tg_notifier import send_notification
+from .models import Task
 
 
 @shared_task

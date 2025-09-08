@@ -1,8 +1,8 @@
-from .models import Task
-from .forms import TaskForm
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
+from .models import Task
+from .forms import TaskForm
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):

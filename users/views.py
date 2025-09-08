@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 # from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.http import HttpResponseNotAllowed
 
 
 # def register(request):
@@ -23,10 +24,9 @@ def login(request):
             auth_login(request, form.get_user())
             if "next" in request.POST:
                 return redirect(request.POST.get("next"))
-            else:
-                return redirect("tasks:tasks")
-    else:
-        form = AuthenticationForm()
+            return redirect("tasks:home")
+        return render(request, "users/login.html", {"form": form})
+    form = AuthenticationForm()
     return render(request, "users/login.html", {"form": form})
 
 
@@ -34,3 +34,4 @@ def logout(request):
     if request.method == "POST":
         auth_logout(request)
         return redirect("tasks:home")
+    return HttpResponseNotAllowed(["POST"])
