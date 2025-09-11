@@ -7,6 +7,7 @@ from .forms import TaskForm
 
 logger = logging.getLogger(__name__)
 
+
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     context_object_name = "task"
@@ -18,9 +19,6 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         logger.info(f"{self.request.user} created task '{form.instance.title}' successfully")
         return super().form_valid(form)
-    
-    def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
         return f"/tasks/{self.object.id}/"
@@ -52,9 +50,6 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         form.instance.user = self.request.user
         logger.info(f"{self.request.user} updated task '{form.instance.title}' successfully")
         return super().form_valid(form)
-    
-    def put(self, request, *args, **kwargs):
-        return super().put(request, *args, **kwargs)
 
     def get_success_url(self):
         return f"/tasks/{self.object.id}/"

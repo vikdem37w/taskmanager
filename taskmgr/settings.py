@@ -176,11 +176,11 @@ LOGGING = {
         "handlers": ["console"],
         "level": "INFO",
     },
-    'loggers': {
-        'tasks': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+    "loggers": {
+        "tasks": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
     },
 }
