@@ -11,18 +11,18 @@ from .models import Task
 def send_deadline_notifications():
     now = make_aware(datetime.now())
     today = now.date()
-    
+
     logger = logging.getLogger(__name__)
 
     tasks_due_soon = Task.objects.filter(due_date__lte=today)
     logger.info(f"Found {tasks_due_soon.count()} tasks due soon")
-    
+
     for task in tasks_due_soon:
         try:
             asyncio.run(
-            send_notification(
+                send_notification(
                     f"*{task.user.username}*, aren't you forgetting something important? \n*{task.title}* is waiting."
                 )
             )
-        except Exception as e:
-            logging.error(f"Reminder failed: {e}")
+        except RuntimeError as e:
+            logger.error(f"Reminder failed: {e}")

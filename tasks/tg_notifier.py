@@ -1,5 +1,5 @@
-import aiogram
 import logging
+import aiogram
 from taskmgr.settings import REMINDERS_CHAT_IDS, TELEGRAM_KEY
 
 
@@ -10,6 +10,6 @@ async def send_notification(message):
         try:
             await bot.send_message(chat_id=chat_id, text=message, parse_mode="Markdown")
             logger.info(f"Reminder to {chat_id} sent successfully")
-        except Exception as e:
+        except RuntimeError as e:
             logger.error(f"Error sending notification to chat {chat_id}: {e}")
     await bot.session.close()

@@ -115,7 +115,7 @@ generated-members = [
     "torch.*",
     "ujson.*",
     "objects",        # Django ORM manager
-    "DoesNotExist",   # исключение моделей Django
+    "DoesNotExist",   # exluding django junk
 ]
 ignore-mixin-members = "yes"
 ignore-none = "yes"
