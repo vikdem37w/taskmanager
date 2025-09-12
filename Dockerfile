@@ -46,6 +46,3 @@ USER appuser
  
 # Expose the application port
 EXPOSE 8000 
- 
-# Start the application
-CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 --workers 3 taskmgr.wsgi:application"]

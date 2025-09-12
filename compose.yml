@@ -5,8 +5,6 @@ services:
      POSTGRES_DB: ${POSTGRES_DB}
      POSTGRES_USER: ${POSTGRES_USER}
      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-   ports:
-     - "5432:5432"
    volumes:
      - postgres_data:/var/lib/postgresql/data
    env_file:
@@ -15,6 +13,7 @@ services:
  django-web:
    build: .
    container_name: django-docker
+   command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:8000 --workers 3 taskmgr.wsgi:application"
    ports:
      - "8000:8000"
    depends_on:
@@ -40,9 +39,6 @@ services:
     image: rabbitmq:latest
     container_name: rabbitmq
     restart: always
-    ports:
-      - 5672:5672
-      - 15672:15672
     environment:
       RABBITMQ_DEFAULT_USER: ${MQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${MQ_DEFAULT_PASS}

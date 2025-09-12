@@ -22,7 +22,7 @@
                 <h3><a href="{% url 'tasks:task_detail' task.id %}">{{ task.title }}</a></h3>
                 <p>{{ task.status }}</p>
                 <p>{{ task.priority }}</p>
-                <p>{{ task.description }}</p>
+                <p class="pre">{{ task.description }}</p>
                 <p>{{ task.due_date }}</p>
                 <form action="{% url 'tasks:delete_task' task.id %}" method="post">
                     {% csrf_token %}
