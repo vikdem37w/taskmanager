@@ -1,0 +1,113 @@
+services:
+ db:
+   image: postgres:17
+   environment:
+     POSTGRES_DB: ${POSTGRES_DB}
+     POSTGRES_USER: ${POSTGRES_USER}
+     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+   volumes:
+     - postgres_data:/var/lib/postgresql/data
+   env_file:
+     - .env
+ 
+ django-web:
+   build: .
+   container_name: django-docker
+   command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:8000 --workers 3 taskmgr.wsgi:application"
+   ports:
+     - "8000:8000"
+   depends_on:
+     - db
+   environment:
+     TM_SECRET_KEY: ${TM_SECRET_KEY}
+     TM_DEBUG: ${TM_DEBUG}
+     TM_ALLOWED_HOSTS: ${TM_ALLOWED_HOSTS}
+     TM_CSRF_TRUSTED: ${TM_CSRF_TRUSTED}
+     TM_DOMAIN: ${TM_DOMAIN}
+     POSTGRES_DB: ${POSTGRES_DB}
+     POSTGRES_USER: ${POSTGRES_USER}
+     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+     POSTGRES_HOST: ${POSTGRES_HOST}
+     POSTGRES_PORT: ${POSTGRES_PORT}
+     TELEGRAM_KEY: ${TELEGRAM_KEY}
+     REMINDER_CHAT_IDS: ${REMINDER_CHAT_IDS}
+     MQ_BROKER_URL: ${MQ_BROKER_URL}
+   env_file:
+     - .env
+
+ rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ${MQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${MQ_DEFAULT_PASS}
+    env_file:
+      - .env
+    configs:
+      - source: rabbitmq-plugins
+        target: /etc/rabbitmq/enabled_plugins
+    volumes:
+      - rabbitmq-lib:/var/lib/rabbitmq/
+      - rabbitmq-log:/var/log/rabbitmq
+  
+ celery_worker:
+    build: .
+    command: celery -A taskmgr worker --loglevel=info -E
+    volumes: 
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      TM_SECRET_KEY: ${TM_SECRET_KEY}
+      TM_DEBUG: ${TM_DEBUG}
+      TM_ALLOWED_HOSTS: ${TM_ALLOWED_HOSTS}
+      TM_CSRF_TRUSTED: ${TM_CSRF_TRUSTED}
+      TM_DOMAIN: ${TM_DOMAIN}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      TELEGRAM_KEY: ${TELEGRAM_KEY}
+      REMINDER_CHAT_IDS: ${REMINDER_CHAT_IDS}
+      MQ_BROKER_URL: ${MQ_BROKER_URL}
+    depends_on:
+      - rabbitmq
+      - db
+
+ celery_beat:
+    build: .
+    command: celery -A taskmgr beat --loglevel=info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      TM_SECRET_KEY: ${TM_SECRET_KEY}
+      TM_DEBUG: ${TM_DEBUG}
+      TM_ALLOWED_HOSTS: ${TM_ALLOWED_HOSTS}
+      TM_CSRF_TRUSTED: ${TM_CSRF_TRUSTED}
+      TM_DOMAIN: ${TM_DOMAIN}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      TELEGRAM_KEY: ${TELEGRAM_KEY}
+      REMINDER_CHAT_IDS: ${REMINDER_CHAT_IDS}
+      MQ_BROKER_URL: ${MQ_BROKER_URL}
+    depends_on:
+      - rabbitmq
+      - db
+
+configs:
+  rabbitmq-plugins:
+    content: "[rabbitmq_management]."  
+
+volumes:
+  rabbitmq-lib:
+    driver: local
+  rabbitmq-log:
+    driver: local
+  postgres_data:

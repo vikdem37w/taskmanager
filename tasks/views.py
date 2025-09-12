@@ -1,8 +1,11 @@
+import logging
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
 from .models import Task
 from .forms import TaskForm
+
+logger = logging.getLogger(__name__)
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
@@ -14,6 +17,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        logger.info(f"{self.request.user} created task '{form.instance.title}' successfully")
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -44,6 +48,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        logger.info(f"{self.request.user} updated task '{form.instance.title}' successfully")
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -53,4 +58,8 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     context_object_name = "task"
-    success_url = "/"
+    login_url = "/users/login/"
+
+    def get_success_url(self):
+        logger.info(f"{self.request.user} deleted task '{self.object.title}' successfully")
+        return "/"
