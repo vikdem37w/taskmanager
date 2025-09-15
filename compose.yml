@@ -100,14 +100,3 @@ services:
     depends_on:
       - rabbitmq
       - db
-
-configs:
-  rabbitmq-plugins:
-    content: "[rabbitmq_management]."  
-
-volumes:
-  rabbitmq-lib:
-    driver: local
-  rabbitmq-log:
-    driver: local
-  postgres_data:
